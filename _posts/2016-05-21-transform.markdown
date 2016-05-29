@@ -249,7 +249,7 @@ transform: rotate(-45deg);
 ```
 ``what!? `` 结果好像和第一次执行的结果``不一样么``？why? why?。
 
-真想只有一个！
+![](http://images2.gamme.com.tw/news/2011/04/0422-anime_quote-05.jpg)
 
 请看下集（css3-transform 连环变形坐标“杀人”事件）
 
