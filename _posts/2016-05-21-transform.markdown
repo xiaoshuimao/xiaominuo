@@ -251,6 +251,6 @@ transform: rotate(-45deg);
 
 ![](http://images2.gamme.com.tw/news/2011/04/0422-anime_quote-05.jpg)
 
-请看下集（css3-transform 连环变形坐标“杀人”事件）
+请看下集（css3-transform ``连环变形`` "事件"）
 
 ### to be continue...
