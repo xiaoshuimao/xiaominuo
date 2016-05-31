@@ -2,7 +2,7 @@
 layout: post
 title: transform的基础知识(一)
 subtitle: "rotate, scale, skew, translate"
-date: 2015-05-25
+date: 2016-05-25
 author: w567675
 ---
 > This document is not completed and will be updated anytime.
@@ -18,6 +18,7 @@ w567675的博客开始写第一篇文章。主要记录每天学习的知识。
 
 
 <s id="rotate"></s>
+
 ### 如何使用 transform 功能
 
 > 这里主要展示下基本的transform的rotate用法
