@@ -1,0 +1,38 @@
+---
+layout: post
+title: ES6深入浅出（一）
+subtitle: "let, const"
+date: 2016-05-31
+author: w567675
+header-img: "img/post-bg-es6.jpg"
+---
+
+## 前言
+
+ES6深入浅出系列文章，是本文作者在学习javascript的ES6规范时记录下的笔记。
+
+主要阅读了 阮一峰老师的[《ECMAScript 6入门》](http://es6.ruanyifeng.com/) 以及 [《深入浅出ES6》](http://www.infoq.com/cn/es6-in-depth/)
+
+---
+
+
+## ES6 是什么？
+
+编程语言JavaScript是ECMAScript的实现和扩展，由ECMA（类似W3C的标准组织）来指定标准化。主要定义了：
+
+* [语法语言](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Lexical_grammar){:target="_blank"} -  语法解析、语句、声明、运算等。
+* [类型](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Data_structures){:target="_blank"} - 数字、字符串、对象、布尔型等
+* [原型于继承](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects){:target="_blank"} - 原型链
+* 内置对象和函数标准库 - [JSON](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/JSON){:target="_blank"}、[Math](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array){:target="_blank"}、[数值方法](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Array){:target="_blank"}、[对象自省方法](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Object){:target="_blank"}等
+
+早在2009年，上一版的ES5刚刚发布，ES标准委员会又开始JS新的标准 —— `ES6`。
+
+ES6是一次比较重大的变革，与此同时呢，由于ES6秉承最大化兼容现有代码的设计理念（不这样，那不是死翘翘了☹ ）,你以前变形的JS代码能继续正常运行。到目前为止，已经很多浏览器开始支持ES6的部分特性，并且逐渐支持更多的特性。代表性的浏览器就是[Chrome](http://www.google.cn/chrome/browser/desktop/index.html){:target="_blank"} (收取广告费么^O^  )。 其他浏览器是否支持你可以通过 [Can i use](http://caniuse.com/){:target="_blank"} 来查询。
+
+> IE8这种低版本的浏览器也能通过 [babel](https://babeljs.io/){:target="_blank"}  来进行 ES6 降级到 ES5 语法，再通过 [es5-shim、es5-sham](https://github.com/es-shims/es5-shim){:target="_blank"} 来支持 ES5 方法。 [Demo](https://github.com/w567675/webpack-es6-testdemo){:target="_blank"}
+
+> 搭配使用 [webpack](https://webpack.github.io/){:target="_blank"} 更是谁用谁知道， 妈妈再也不用担心了。 o(*￣︶￣*)o。
+
+
+
+### to be continue...
