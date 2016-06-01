@@ -34,5 +34,105 @@ ES6是一次比较重大的变革，与此同时呢，由于ES6秉承最大化�
 > 搭配使用 [webpack](https://webpack.github.io/){:target="_blank"} 更是谁用谁知道， 妈妈再也不用担心了。 o(*￣︶￣*)o。
 
 
+### let 语法
+> 在介绍 `let` 之前我们谈谈2个比较典型的问题。
+
+#### 问题#1： JS没有块级作用域
+```js
+function setTime(time) {
+	var t = time;
+	$btn.on('click', function() {
+		var x = parseInt(t)//这里使用t变量
+	});
+	...
+	//更多代码
+}
+```
+上述代码执行没有什么问题。在click事件中调用外部作用域的变量 `t` ,一切都是那么美好。
+再看看下面修改过的例子：
+
+```js
+function setTime(time, day) {
+	var t = time;
+	$btn.on('click', function() {
+		var x = parseInt(t)//这里使用t变量
+		if(day < 5) {
+			var t = time + 1;
+		}
+	});
+	...
+	//更多代码
+}
+```
+
+
+
+
+第一次的代码还能正常运行。现在你无意中又在click事件中定义了个变量 `t` 。结果导致click事件使用的变量 `t` 是内部定义的变量 `t` ， 而不是外部定义的变量 `t` 。为什么呢?
+因为在使用`var`声明变量的时候，**其作用域从声明处开始向前后两个方向扩散，直到触及函数边界才停止扩散** 。这种变量 `t` 作用域甚广，所以在进入函数的时候就会 **立马创建变量** `t` ，这就是所谓的 *提升(hoisting)* , 提升就是JS引擎把 `var`声明 和 `function` 函数声明都会提升到该存在的作用域的最开始的位置。
+上述代码的结果就是;
+
+```js
+  var t;
+  var x = parseInt(t); //NaN
+  t = 1;
+```
+这种问题极难定位，尤其是当你的代码量远超上面这个极小的示例，你会发狂到崩溃。<img src="http://wp.patheos.com.s3.amazonaws.com/blogs/exploringourmatrix/files/2013/07/Im-so-so-sorry.gif" width = "300" style="margin: 0">
+
+#### 问题#2： 循环内变量过度共享
+```js
+  var arr = [1, 2, 3];
+  for(var i = 0; i < arr.length; i ++) {
+    alert(arr[i]) //输出1, 2, 3
+  }
+```
+
+上述代码如期望的那样分3次 `alert` `出1,2,3的结果。
+
+> 请不要轻易使用 `alert` 来实现web页面中的功能，`alert`会打断js的执行。我之所以在代码中使用是因为 `alert` 特性使它变成一个非常典型的示例。
+
+看下面的代码示例：
+
+```js
+  var arr = [1, 2, 3];
+  for(var i = 0; i < arr.length; i ++) {
+    setTimeout(function(){
+      alert(arr[i])
+    }, 500);
+  }
+```
+
+这一次没有想期望的那样分3次 `alert` 出1,2,3的结果。而是3次 `undefined`。应为3次setTimeout 共享了 唯一的变量 `i`。当循环完毕时候`i = 3` (因为arr.length === 3)。此时setTimeout还没有被执行，当执行setTimeout的时候就是 `alert(arr[i])` (undefined)。
+
+解决这个问题有很多种方法， 比如下面示例那样，使用 [IIFE 立即执行函数](https://developer.mozilla.org/zh-CN/docs/Glossary/IIFE){:target="_blank"} 来创建私有作用域来保存变量 `i`。
+
+```js
+  var arr = [1, 2, 3];
+  for(var i = 0; i < arr.length; i ++) {
+    (function(i){
+      setTimeout(function(){
+        alert(arr[i])
+      }, 500);
+    })(i)
+  }
+```
+
+当然有没有更好的方案？
+
+#### let 是更完美的 var
+
+ES6新增了 `let` 命令，用来声明变量。它的用法类似于 `var`，但是所声明的变量，只在`let`命令所在的代码块内有效。
+
+```js
+  {
+    let a = 1;
+    var b = 2;
+  }
+
+  a // ReferenceError: a is not defined.
+  b // 2
+```
+
+
 
 ### to be continue...
