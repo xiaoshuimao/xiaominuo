@@ -37,6 +37,9 @@ ES6是一次比较重大的变革，与此同时呢，由于ES6秉承最大化�
 ### let 语法
 > 在介绍 `let` 之前我们谈谈2个比较典型的问题。
 
+
+<s id="qusetion-1"></s>
+
 #### 问题#1： JS没有块级作用域
 ```js
 function setTime(time) {
@@ -78,6 +81,8 @@ function setTime(time, day) {
   t = 1;
 ```
 这种问题极难定位，尤其是当你的代码量远超上面这个极小的示例，你会发狂到崩溃。<img src="http://wp.patheos.com.s3.amazonaws.com/blogs/exploringourmatrix/files/2013/07/Im-so-so-sorry.gif" width = "300" style="margin: 0">
+
+<s id="qusetion-2"></s>
 
 #### 问题#2： 循环内变量过度共享
 ```js
@@ -132,7 +137,69 @@ ES6新增了 `let` 命令，用来声明变量。它的用法类似于 `var`，�
   a // ReferenceError: a is not defined.
   b // 2
 ```
+上述代码使用了 `{ }` (块级作用域), 在里面用 `let` 声明了变量a, `var`声明了变量b。在块级作用域之调用变量a和变量b。结果用 `let` 声明的变量a报 is not defined 的错误。用`var`声明的变量b正确输出2。说明 `let` 只能在其所在的作用域能够调用，在其外部的作用域无法被调用。
 
+还记得上面提到的[问题#1： JS没有块级作用域么](#qusetion-1)？ `let` 已经完美解决了：
+
+```js
+function setTime(time, day) {
+  var t = time; 
+  $btn.on('click', function() {
+    var x = parseInt(t)//这里使用t变量是 外部作用域的变量t
+    if(day < 5) {
+      let t = time + 1; //这里变量t有自己的块状作用域，不会被外部调用
+    }
+  });
+  ...
+  //更多代码
+}
+```
+以及[问题#2： 循环内变量过度共享](#qusetion-2)也能用 `let` 解决：
+
+```js
+  var arr = [1, 2, 3];
+  for(let i = 0; i < arr.length; i ++) { //使用 let 代替 var
+    setTimeout(function(){
+      alert(arr[i])
+    }, 500);
+  }
+```
+
+#### let 不存在变量提升
+```js
+ 
+  console.log(b); // undefined
+  console.log(a); // ReferenceError: a is not  defined
+  var b = 2;
+  let a = 1;
+```
+变量提升的概念在[问题#1： JS没有块级作用域么](#qusetion-1)有提及过。这里变量 **b** 使用 `var` 声明，会被提升到在其作用域内的顶部，但是并没有被赋值，所以输出 **undefined** 。但是用 `let` 声明的变量 **a** 并没有这样的情况，直接出现 **a** 没有被声明的语法报错。
+
+#### “暂时性死区”
+```js
+  var a = 1;
+  if(true) {
+    console.log(a) // ReferenceError: a is not  defined
+    let a;
+  }
+```
+ES6明确规定，如果区块中存在 `let` 和 [const](#const)命令，这个区块对这些命令声明的变量，从一开始就形成了封闭作用域。凡是在声明之前就使用这些变量，就会报错。
+使用let命令声明变量之前，该变量都是不可用的。这在语法上，称为“暂时性死区”（temporal dead zone，简称TDZ）。
+
+> 这样能保持很好的编程习惯：使用前必须先声明。
+
+这个特性也同样的影响了 `typeof`。之前我们可能会写出这样的代码：
+
+```js
+typeof a; // undefined
+```
+上面的代码没错，作为比较看下面的代码:
+
+```js
+typeof a; // ReferenceError: a is not  defined
+let a;
+```
+如果一个变量使用 `let` 声明，如果在之前使用 `typeof` 反而会报错，这意味着 `typoef` 不是 100% 安全的操作了。
 
 
 ### to be continue...
