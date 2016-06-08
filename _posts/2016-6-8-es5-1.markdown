@@ -111,7 +111,7 @@ arr.forEach(function(value, index, arr) {
 ```
 thisArg 参数如何使用？ 这里就举个例子：
 
-```
+```js
 function Counter() {
   this.sum = 0;
   this.count = 0;
