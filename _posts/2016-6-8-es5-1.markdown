@@ -109,6 +109,27 @@ arr.forEach(function(value, index, arr) {
 3 2 [1, 2, 3, "新来的", "新来的", "新来的"]
 */
 ```
+thisArg 参数如何使用？ 这里就举个例子：
 
+```
+function Counter() {
+  this.sum = 0;
+  this.count = 0;
+}
+Counter.prototype.add = function(array) {
+  array.forEach(function(entry) {
+    this.sum += entry;
+    ++this.count;
+  }, this);
+  // ^---- 这里传入了 forEach 执行的上下文对象
+};
+
+var obj = new Counter();
+obj.add([2, 5, 9]);
+console.log(obj.count)
+// 3 
+console.log(obj.sum)
+// 16
+```
 
 ### to be continue...
