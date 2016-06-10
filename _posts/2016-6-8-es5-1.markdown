@@ -23,7 +23,7 @@ author: w567675
 5个迭代方法:
 
  * [forEach](#arrayprototypeforeach)
- * [map](#map)
+ * [map](#arrayprototypemap)
  * [filter]
  * [some]
  * [every]
@@ -39,7 +39,7 @@ author: w567675
  * [lastindexOf]
 
 #### Array.prototype.forEach()
- > forEach() 方法让数组的每一项都执行一次给定的函数
+forEach() 方法让数组的每一项都执行一次给定的函数。
 
 **语法**
 
@@ -50,7 +50,7 @@ array.forEach(callback[, thisArg])
 
 **参数**
 
- - callback，循环执行的给定函数，接受3个参数：
+ - callback，循环执行的给定函数，**默认有传参**，接受3个参数：
    - `value` 当前项（指遍历时正在被处理那个数组项）的值。
    - `index` 当前项的索引（或下标）。
    - `array` 数组本身
@@ -97,7 +97,7 @@ undefined 2 [1, 2: undefined, 3: 10]
 
 forEach 遍历的范围在第一次调用 callback 前就会确定。调用forEach **后添加**到数组中的项不会被 callback 访问到。
 
-```
+```js
 var arr = [1, 2, 3];
 arr.forEach(function(value, index, arr) {
 	arr.push('新来的');
@@ -131,5 +131,82 @@ console.log(obj.count)
 console.log(obj.sum)
 // 16
 ```
+
+
+#### Array.prototype.map()
+ map() 方法让数组的每一项都执行一次给定的函数后返回的值组成``新数组``。
+
+ > 基本的特性和 [forEach](#arrayprototypeforeach) 一致。
+
+**语法**
+
+```js
+array.map(callback[, thisArg])
+```
+
+
+**参数**
+
+ - callback，循环执行的给定函数，**默认有传参**，接受3个参数：
+   - `value` 当前项（指遍历时正在被处理那个数组项）的值。
+   - `index` 当前项的索引（或下标）。
+   - `array` 数组本身
+ - thisArg, 可选参数。用来当作callback 函数内this的值的对象。
+
+
+**如何使用**
+
+```js
+var arr = [1, 2, 3];
+var sqrtArr = arr.map(Math.sqrt);
+console.log(sqrtArr); //[1, 1.4142135623730951, 1.7320508075688772]
+```
+上面的代码求数组 ``arr`` 中每个元素的平方根，其中参数没有指定，默认有传参。
+
+forEach 方法按升序为数组中含有效值的每一项执行一次callback 函数。
+
+
+在字符串上使用 map 方法：
+
+```js
+var map =  Array.prototype.map;
+var arr = map.call('hello world', function(x) {
+//             ^--- 通过 call 来改变 map 方法执行的上下文对象。ES5 有更好的 bind 来替换call。
+	return x.toUpperCase();
+});
+```
+
+**注意点**
+
+通常情况下，map 方法中的 callback 函数**只需要接受一个参数**，就是正在被遍历的数组元素本身。但**这并不意味着 map 只给 callback 传了一个参数**。这个思维惯性可能会让我们犯一个很容易犯的错误。
+
+```js
+// 下面的语句返回什么呢:
+var arr = ["1", "2", "3"].map(parseInt);
+
+console.log(arr) // [1, NaN, NaN]
+```
+
+why ? 
+
+ `parsetInt` 方法有2个参数，第一个要被解析的字符串（string）， 第二个为 进制数（表示要解析的数字的基数），该值介于 2 ~ 36 之间。
+
+当 ``map`` 方法在调用 ``parseInt`` 函数时,**会给它传递三个参数(默认的)**：当前正在遍历的元素， 元素索引， 原数组本身。
+第三个参数 ``parseInt`` 会忽视, 但**第二个参数不会**，也就是说， ``parseInt`` 把传过来的索引值当成进制数来使用.从而返回了 ``NaN``。
+
+
+应该修改成如下：
+
+```js
+function returnInt(value){
+  return parseInt(value, 10); // 显式指定进制数为10
+}
+var arr = ["1", "2", "3"].map(returnInt);
+console.log(arr); // 返回[1,2,3]
+
+```
+
+
+
 
 ### to be continue...
