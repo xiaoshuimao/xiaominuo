@@ -5,6 +5,8 @@ subtitle: "let, const"
 date: 2016-05-31
 author: w567675
 header-img: "img/post-bg-es6.jpg"
+tags:
+    - ES6
 ---
 
 ## 前言

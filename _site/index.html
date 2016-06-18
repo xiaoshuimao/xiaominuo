@@ -154,6 +154,41 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2016/06/18/tailCall/">
+        <h2 class="post-title">
+            尾调用、尾递归
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            尾调用
+
+尾调用（Tail Call）是函数式编程的一个重要概念。简单来说就是一个函数的执行的最后一步是调用另外一个函数。例如：
+
+function b(x) {
+  return a(x); // 这个是尾调用
+}
+
+
+上面的函数 b 在 执行的最后一步调用了函数 a ，这是尾调用。
+
+出现下面几种情况都不算尾调用：
+
+1：在调用函数 a 之后还有赋值操作。
+
+function b(x) ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by w567675 on June 18, 2016
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2016/06/15/binary-1/">
         <h2 class="post-title">
             原码、反码、补码
@@ -326,6 +361,16 @@ w567675的博客开始写第一篇文章。主要记录每天学习的知识。
                     <h5><a href="/tags/">FEATURED TAGS</a></h5>
                     <div class="tags">
                         
+                            
+                        
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#随手笔记" title="随手笔记" rel="2">
+                                    随手笔记
+                                </a>
                             
                         
                     </div>

@@ -4,6 +4,8 @@ title: ES5新增内置方法总结
 subtitle: "Array，Object对象上的方法"
 date: 2016-06-08
 author: w567675
+tags:
+    - ES5
 ---
 > This document is not completed and will be updated anytime.
 
