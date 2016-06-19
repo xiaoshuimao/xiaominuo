@@ -2,7 +2,7 @@
 layout: post
 title: 尾调用、尾递归
 subtitle: ""
-date: 2016-06-18
+date: 2016-06-19
 author: w567675
 tags:
     - 随手笔记
@@ -130,4 +130,67 @@ function b(x) {
 
 ### 尾递归
 
-### to be continue...
+通常的函数调用自身称为递归。那么尾递归就是**尾调用自身**。
+
+递归比较耗费内存，遇到调用次数过多时，会保存成百上千的``调用帧``，就很容易发生“栈溢出”（stack overflow）。上面提到过，尾调用只会存在一个``调用帧``， 意味着 尾递归永远不会发生“栈溢出”。
+
+下面我们来看一个计算阶乘的函数[（n! = 1 x 2 x 3 x ... x n）](http://baike.baidu.com/link?url=FqZP9J3CHfTrzEXfpRd74SsYkFaaY6_Srk6_B9GYKDPT_IiDIwocJmoaPLQPCLkpc-gMyk6DYq1WEnWgM8DzJq){:target="_blank"}:
+
+```js
+function factorial(n) {
+  if(n === 1) return 1;
+  return n * factorial(n - 1); //递归
+}
+```
+
+上述代码是我们通常会实现的情况，在计算``n!``的时候会保存 ``n个调用帧``。时间复杂度为O(n)。
+
+现在我们改写成尾递归：
+
+```js
+function factorial(n, total) {
+  if(n === 1) return total;
+  return factorial(n - 1, n * total); //尾递归
+}
+```
+
+上述代码时间复杂度为O(1)。由此可见，“尾调用的优化”对递归非常重要。
+
+
+### 如何改写成尾递归？
+
+尾递归的实现需要改写递归函数， 确保最后一步一定是调用自己的操作（为什么？请回上面看看...）。如何做到这点，就是**把所有内部用到的参数全部改成函数的参数**。
+
+例如上面的计算阶乘的函数，其中需要``total``来记录每次变化的数值。那就把这个参数改写到函数的参数中去。但是这里可能有一个比较变扭的地方，就是计算一个阶乘为什么要传2个参数...
+
+我们可以在用几种方式来优化下。
+
+第一种自己再封装一次：
+
+```js
+function tailFactorial(n, total) {
+  if(n === 1) return total;
+  return factorial(n - 1, n * total); //尾递归
+}
+
+function factorial(n) {
+  return tailFactorial(n, 1);
+}
+
+factorial(3); // 这里就是统一的对外api接口了。
+```
+上面简单的封装，另外也可以通过[柯里化（currying）](http://baike.baidu.com/link?url=m7BZK_4ca_NP5lGvSMTwVRwUL38c38rRNIh5d3b7EghlEaTE-hQ28bXKbEaebfu3an5rBAQk5LXEHzvZI5r3QK){:target="_blank"}的方式修改，这里就不展开了。
+
+
+
+第二种ES6的默认参数：
+
+```js
+function tailFactorial(n, total = 1) {
+//                              ^------ ES6 默认参数（自行google）                       
+  if(n === 1) return total;
+  return factorial(n - 1, n * total); //尾递归
+}
+```
+
+<img src="https://ss0.bdstatic.com/94oJfD_bAAcT8t7mm9GUKT-xh_/timg?image&quality=100&size=b4000_4000&sec=1466344582&di=00572166f3968b7a37a90d09728597d8&src=http://img5.duitang.com/uploads/blog/201407/24/20140724091456_VVQJz.jpeg" alt="">
