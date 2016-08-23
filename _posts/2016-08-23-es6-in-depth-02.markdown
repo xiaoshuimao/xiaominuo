@@ -1,0 +1,138 @@
+---
+layout: post
+title: ES6深入浅出（二）
+subtitle: "for...of, Iterator"
+date: 2016-08-23
+author: w567675
+header-img: "img/post-bg-es6.jpg"
+tags:
+    - ES6
+---
+
+## 前言
+
+ES6深入浅出系列文章，是本文作者在学习javascript的ES6规范时记录下的笔记。
+
+主要阅读了 阮一峰老师的[《ECMAScript 6入门》](http://es6.ruanyifeng.com/) 以及 [《深入浅出ES6》](http://www.infoq.com/cn/es6-in-depth/)
+
+---
+
+
+## for, forEach, for...of
+
+#### for
+我们如何遍历一个数组Array？在比较早的时候我们可能这样写:
+
+```js
+const array = [1, 2, 3]
+for(let i = 0, l = array.length; i < l) {
+  console.log(array[i]);
+}
+
+// 1, 2, 3
+```
+
+这样写即麻烦，有感觉不够高大上。
+
+
+#### forEach
+
+自从ES5正式发布后，我们可以使用内置的`forEach`;
+
+forEach 这个我们之前的文章中有介绍过，可以点击[这里回去查看](/2016/06/08/es5-1/#arrayprototypeforeach){:target="_blank"}
+
+把上面的代码改成forEach
+
+```js
+const array = [1, 2, 3];
+
+array.forEach(function(value, index){
+  if(value > 1) {
+    continue; //这里并不工作
+    break;  //这里并不工作
+    return; //这里并不工作
+  }
+  console.log(value);
+});
+
+//1, 2, 3
+
+```
+
+**forEach的缺点**： ``break`` , ``return``, ``continue`` 并不能正常执行。
+
+**还有没有呢？看下面**
+
+#### for...of
+
+在介绍 ``for..of`` 之前，我们先看下``for...in``;
+
+
+可能我们有些小伙伴会写这样的代码
+
+```js
+const array = [1, 2, 3]
+for(let i in array) {  //这里强烈不推荐这样做
+  console.log(typeof i) //string
+  console.log(array[i]); // 1, 2, 3
+}
+
+// 1, 2, 3
+```
+**这里强烈不推荐这样做！为什么？**
+
+  * 在这段代码中，赋给 i 的值不是实际的``数字``，而是``字符串``“0”、“1”、“2”，此时很可能在无意之间进行字符串算数计算，例如：“2” + 1 == “21”，这样就会埋坑。
+  * 作用于数组的for-in循环体除了遍历数组元素外，还会遍历自定义属性。举个例子，如果你的数组中有一个可枚举属性myArray.name，循环将额外执行一次，遍历到名为“name”的索引。就连数组原型链上的属性都能被访问到。
+  * 在某些情况下(一般由浏览器解析器来决定)，这段代码可能按照随机顺序遍历数组元素。
+  * for-in是为普通对象设计的，你可以遍历得到字符串类型的键，因此不适用于数组遍历。
+
+
+
+ES6推出了更加强大的``for...of``
+
+你可以像这样写
+
+```js
+const array = [1, 2, 3]
+for(let v of array) { 
+  if(v > 1 ) {
+    break; //正确执行
+  }
+  console.log(v); 
+}
+// 1
+```
+
+**for...of 完美的解决了以下问题**
+
+  * 这个方法避开了for-in循环的所有缺陷
+  * 与forEach()不同的是，它可以正确响应``break``、``continue``和``return``语句
+
+<img src="http://image.bitauto.com/dealer/news/100055432/b17ad3d0-9786-47e5-ade5-9e0e1475e657.jpg" width="100" height="100">
+
+
+``for-of`` 循环也可以遍历其它的集合, 例如
+
+  * Map   
+  * Set   
+  * WeakMAp  
+  * WeakSet  
+  * 类数组对象 
+  * DOM NodeList对象
+
+
+
+这里可能有些没了解，没关系, 自己去找下资料就好了.
+
+
+
+
+
+
+
+
+
+### to be continue...
+
+
+
