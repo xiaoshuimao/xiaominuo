@@ -124,10 +124,55 @@ for(let v of array) {
 
 这里可能有些没了解，没关系, 自己去找下资料就好了.
 
+## Iterator 迭代器
+
+Iterator 是ES6推出的新的概念，是不同数据结构的统一的访问接口机制。
+
+**Iterator 的作用**：
+
+  * 为各种数据结构提供一个统一的、简便的访问接口。
+  * 使得数据成员能按某种顺序排列。
+  * 创造了新的``for...of``循环命令，Iterator主要是为了``for...of``消费使用的。
 
 
+**Iterator的遍历过程**：
+
+  1. 创建一个指针对象，指向当前的数据结构的起始位置。也就是说，遍历器对象本质上就是个指针对象。
+  2. 第一次调用指针对象的next方法，指针指向数据结构的第一个成员。
+  3. 第二次调用指针对象的next方法，指向指向数据结构的第二个成员。
+  4. 不断调用指针对象的next方法，直至指向数据结构的结束位置。
+
+每次调用next方法都会返回一个 ``{value: "", done: false}`` 对象, ``value`` 表示当前成员的值，``done``表示便利是否结束。
 
 
+下面可以简单的模拟下Iterator:
+
+```js
+  function iteratorApi(array) {
+    var index = 0;
+    return {
+      next: function() {
+        if(index < array.lenth) {
+          return {
+            value: array[index++],
+            done: false
+          }
+        }
+        else { //结束遍历
+          value: undefined,
+          done: true
+        }
+      }
+    }
+  }
+
+  var iterator = iteratorApi([1,2,3]);
+
+  iterator.next(); // {value: 1, done: false}
+  iterator.next(); // {value: 2, done: false}
+  iterator.next(); // {value: 3, done: false}
+  iterator.next(); // {value: undefined, done: true}
+```
 
 
 
